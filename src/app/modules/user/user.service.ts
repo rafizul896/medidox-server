@@ -1,22 +1,29 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../../../../prisma/prisma";
-import { Patient } from "../../../../generated/prisma/client";
+import { Request } from "express";
+import { fileUploder } from "../../helper/fileUploader";
 
-const createPatient = async (payload: Patient & { password: string }) => {
-  const hashPassword = await bcrypt.hash(payload.password, 10);
+const createPatient = async (req: Request) => {
+  const pyload = req.body.patient;
+  const hashPassword = await bcrypt.hash(req.body.password, 10);
+
+  if (req.file) {
+    const result = await fileUploder.uploadToCloudinary(req.file);
+
+    pyload.profilePhoto = result?.secure_url;
+  }
 
   const result = await prisma.$transaction(async (tx) => {
     await tx.user.create({
       data: {
-        email: payload.email,
+        email: pyload?.email,
         password: hashPassword,
       },
     });
 
     return await tx.patient.create({
       data: {
-        name: payload.name,
-        email: payload.email,
+        ...pyload,
       },
     });
   });
