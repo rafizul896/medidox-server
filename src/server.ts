@@ -9,8 +9,8 @@ async function bootstrap() {
 
     try {
         // Start the server
-        server = app.listen(config.port, () => {
-            console.log(`Server is running on http://localhost:${config.port}`);
+        server = app.listen(config.PORT, () => {
+            console.log(`Server is running on http://localhost:${config.PORT}`);
         });
 
         // Function to gracefully shut down the server

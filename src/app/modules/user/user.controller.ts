@@ -4,9 +4,9 @@ import { UserService } from "./user.service";
 import httpStatus from "http-status";
 
 const createPatient = catchAsync(async (req, res, next) => {
-  const result = await UserService.createPatient(req.body);
+  const result = await UserService.createPatient(req);
 
-  sendResponse(res, {
+  return sendResponse(res, {
     success: true,
     statusCode: httpStatus.CREATED,
     message: "Patient is created successfully",
