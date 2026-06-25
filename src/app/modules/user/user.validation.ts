@@ -30,8 +30,21 @@ const createDoctorValidationSchema = z.object({
   }),
 });
 
+const createAdminValidationSchema = z.object({
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  admin: z.object({
+    name: z.string().min(1, "Name is required"),
+    email: z.string().email("Invalid email format"),
+    profilePhoto: z.string().url("Must be a valid URL").optional(),
+    contactNumber: z.string().min(7, "Contact number must be valid").optional(),
+    isDeleted: z.boolean().optional().default(false),
+  }),
+});
+
+
 
 export const UserValidation = {
   createPatientValidationSchema,
-  createDoctorValidationSchema
+  createDoctorValidationSchema,
+  createAdminValidationSchema
 };

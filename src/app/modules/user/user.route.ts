@@ -20,5 +20,11 @@ router.post(
   UserController.createDoctor,
 );
 
+router.post(
+  "/create-admin",
+  fileUploder.upload.single("file"),
+  validateRequest(UserValidation.createAdminValidationSchema),
+  UserController.createAdmin,
+);
 
 export const userRoutes = router;
