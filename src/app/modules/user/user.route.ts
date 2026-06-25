@@ -8,9 +8,23 @@ const router = Router();
 
 router.post(
   "/create-patient",
-  fileUploder.upload.single('file'),
+  fileUploder.upload.single("file"),
   validateRequest(UserValidation.createPatientValidationSchema),
   UserController.createPatient,
+);
+
+router.post(
+  "/create-doctor",
+  fileUploder.upload.single("file"),
+  validateRequest(UserValidation.createDoctorValidationSchema),
+  UserController.createDoctor,
+);
+
+router.post(
+  "/create-admin",
+  fileUploder.upload.single("file"),
+  validateRequest(UserValidation.createAdminValidationSchema),
+  UserController.createAdmin,
 );
 
 export const userRoutes = router;
