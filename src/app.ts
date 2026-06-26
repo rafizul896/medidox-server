@@ -21,7 +21,7 @@ app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
   res.send({
-    environment: config.node_env,
+    environment: config.NODE_ENV,
     message: "Server is running... 🏃‍♂️‍➡️",
     uptime: process.uptime().toFixed(2),
     timeStamp: new Date().toLocaleString(),
