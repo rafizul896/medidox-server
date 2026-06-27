@@ -9,5 +9,5 @@ export const generateToken =  (
 };
 
 export const verifyToken = (token: string, secret: string) => {
-  return jwt.verify(token, secret);
+  return jwt.verify(token, secret) as JwtPayload;
 };

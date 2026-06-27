@@ -149,6 +149,8 @@ const getAllFromDB = async (
   };
 };
 
+
+
 export const UserService = {
   createPatient,
   createDoctor,

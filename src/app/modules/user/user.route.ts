@@ -3,10 +3,16 @@ import { UserController } from "./user.controller";
 import validateRequest from "../../middlewares/validateRequest";
 import { UserValidation } from "./user.validation";
 import { fileUploder } from "../../helper/fileUploader";
+import auth from "../../middlewares/auth";
+import { Role } from "../../../../generated/prisma/enums";
 
 const router = Router();
 
-router.get("/", UserController.getAllFromDB);
+router.get(
+  "/",
+  auth(Role.ADMIN, Role.DOCTOR, Role.PATIENT),
+  UserController.getAllFromDB,
+);
 
 // create routes
 router.post(
