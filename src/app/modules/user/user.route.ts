@@ -6,6 +6,9 @@ import { fileUploder } from "../../helper/fileUploader";
 
 const router = Router();
 
+router.get("/", UserController.getAllFromDB);
+
+// create routes
 router.post(
   "/create-patient",
   fileUploder.upload.single("file"),
