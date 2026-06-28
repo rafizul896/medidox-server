@@ -24,6 +24,7 @@ router.post(
 
 router.post(
   "/create-doctor",
+  auth(Role.ADMIN),
   fileUploder.upload.single("file"),
   validateRequest(UserValidation.createDoctorValidationSchema),
   UserController.createDoctor,
@@ -31,6 +32,7 @@ router.post(
 
 router.post(
   "/create-admin",
+  auth(Role.ADMIN),
   fileUploder.upload.single("file"),
   validateRequest(UserValidation.createAdminValidationSchema),
   UserController.createAdmin,
