@@ -68,11 +68,25 @@ const createSchedule = async (payload: any) => {
 };
 
 const schedulesForDoctor = async (
+  email: string,
   query: { startDate?: string; endDate?: string },
   options: IOptions,
 ) => {
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelper.calculatePagination(options);
+
+  const doctorSchedules = await prisma.doctorSchedule.findMany({
+    where: {
+      doctor: {
+        email,
+      },
+    },
+    select: {
+      scheduleId: true,
+    },
+  });
+
+  const doctorScheduleIds = doctorSchedules.map(schedule => schedule.scheduleId);
 
   const result = await prisma.schedule.findMany({
     where: {
@@ -81,6 +95,9 @@ const schedulesForDoctor = async (
       },
       endDateTime: {
         lte: new Date(query.endDate as string),
+      },
+      id: {
+        notIn: doctorScheduleIds,
       },
     },
     orderBy: {
@@ -98,6 +115,9 @@ const schedulesForDoctor = async (
       endDateTime: {
         lte: new Date(query.endDate as string),
       },
+       id: {
+        notIn: doctorScheduleIds,
+      }
     },
   });
 
@@ -115,9 +135,9 @@ const schedulesForDoctor = async (
 const deleteScheduleFromDB = async (id: string) => {
   return await prisma.schedule.delete({
     where: {
-        id
-    }
-  })
+      id,
+    },
+  });
 };
 
 export const ScheduleService = {

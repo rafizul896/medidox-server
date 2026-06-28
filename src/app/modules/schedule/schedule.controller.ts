@@ -18,8 +18,9 @@ const createSchedule = catchAsync(async (req, res, next) => {
 const schedulesForDoctor = catchAsync(async (req, res, next) => {
   const options = pick(req.query, ["page", "limit", "sortBy", "sortOrder"]);
   const filters = pick(req.query, ["startDate", "endDate"]);
+  const {email} = req.user
 
-  const result = await ScheduleService.schedulesForDoctor(filters, options);
+  const result = await ScheduleService.schedulesForDoctor(email,filters, options);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
