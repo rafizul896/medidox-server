@@ -49,6 +49,8 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
+  Schedule: 'Schedule',
+  DoctorSchedule: 'DoctorSchedule',
   User: 'User',
   Admin: 'Admin',
   Doctor: 'Doctor',
@@ -69,6 +71,28 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const ScheduleScalarFieldEnum = {
+  id: 'id',
+  startDateTime: 'startDateTime',
+  endDateTime: 'endDateTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
+
+
+export const DoctorScheduleScalarFieldEnum = {
+  doctorId: 'doctorId',
+  scheduleId: 'scheduleId',
+  idBooked: 'idBooked',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DoctorScheduleScalarFieldEnum = (typeof DoctorScheduleScalarFieldEnum)[keyof typeof DoctorScheduleScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
