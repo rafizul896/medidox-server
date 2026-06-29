@@ -12,7 +12,9 @@ const globalErrorHandler = (
   let success = false;
   let message = err.message || "Something went wrong!";
   let error = err;
+  const errorSources: any = [];
 
+  //   Prisma Error
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === "P2002") {
       message = "Duplicate key error";
@@ -37,10 +39,23 @@ const globalErrorHandler = (
     statusCode = httpStatus.BAD_REQUEST;
   }
 
+  //   Zod Error
+  else if (err.name === "ZodError") {
+    statusCode = httpStatus.BAD_REQUEST;
+    message = "ZodError";
+
+    err.issues.forEach((errObj: any) =>
+      errorSources.push({
+        path: errObj.path[errObj.path.length - 1],
+        message: errObj.message,
+      }),
+    );
+  }
+
   res.status(statusCode).json({
     success,
     message,
-    error,
+    error: errorSources || error,
   });
 };
 
