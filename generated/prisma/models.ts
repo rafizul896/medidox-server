@@ -10,6 +10,8 @@
  */
 export type * from './models/Schedule'
 export type * from './models/DoctorSchedule'
+export type * from './models/Specialties'
+export type * from './models/DoctorSpecialties'
 export type * from './models/User'
 export type * from './models/Admin'
 export type * from './models/Doctor'
