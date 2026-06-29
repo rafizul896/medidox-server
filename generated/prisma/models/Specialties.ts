@@ -28,18 +28,24 @@ export type SpecialtiesMinAggregateOutputType = {
   id: string | null
   title: string | null
   icon: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type SpecialtiesMaxAggregateOutputType = {
   id: string | null
   title: string | null
   icon: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type SpecialtiesCountAggregateOutputType = {
   id: number
   title: number
   icon: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -48,18 +54,24 @@ export type SpecialtiesMinAggregateInputType = {
   id?: true
   title?: true
   icon?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type SpecialtiesMaxAggregateInputType = {
   id?: true
   title?: true
   icon?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type SpecialtiesCountAggregateInputType = {
   id?: true
   title?: true
   icon?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -139,6 +151,8 @@ export type SpecialtiesGroupByOutputType = {
   id: string
   title: string
   icon: string
+  createdAt: Date
+  updatedAt: Date
   _count: SpecialtiesCountAggregateOutputType | null
   _min: SpecialtiesMinAggregateOutputType | null
   _max: SpecialtiesMaxAggregateOutputType | null
@@ -166,6 +180,8 @@ export type SpecialtiesWhereInput = {
   id?: Prisma.StringFilter<"Specialties"> | string
   title?: Prisma.StringFilter<"Specialties"> | string
   icon?: Prisma.StringFilter<"Specialties"> | string
+  createdAt?: Prisma.DateTimeFilter<"Specialties"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Specialties"> | Date | string
   doctorSpecialties?: Prisma.DoctorSpecialtiesListRelationFilter
 }
 
@@ -173,23 +189,29 @@ export type SpecialtiesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   icon?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   doctorSpecialties?: Prisma.DoctorSpecialtiesOrderByRelationAggregateInput
 }
 
 export type SpecialtiesWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  title?: string
   AND?: Prisma.SpecialtiesWhereInput | Prisma.SpecialtiesWhereInput[]
   OR?: Prisma.SpecialtiesWhereInput[]
   NOT?: Prisma.SpecialtiesWhereInput | Prisma.SpecialtiesWhereInput[]
-  title?: Prisma.StringFilter<"Specialties"> | string
   icon?: Prisma.StringFilter<"Specialties"> | string
+  createdAt?: Prisma.DateTimeFilter<"Specialties"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Specialties"> | Date | string
   doctorSpecialties?: Prisma.DoctorSpecialtiesListRelationFilter
-}, "id">
+}, "id" | "title">
 
 export type SpecialtiesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   icon?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.SpecialtiesCountOrderByAggregateInput
   _max?: Prisma.SpecialtiesMaxOrderByAggregateInput
   _min?: Prisma.SpecialtiesMinOrderByAggregateInput
@@ -202,12 +224,16 @@ export type SpecialtiesScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Specialties"> | string
   title?: Prisma.StringWithAggregatesFilter<"Specialties"> | string
   icon?: Prisma.StringWithAggregatesFilter<"Specialties"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Specialties"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Specialties"> | Date | string
 }
 
 export type SpecialtiesCreateInput = {
   id?: string
   title: string
   icon: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   doctorSpecialties?: Prisma.DoctorSpecialtiesCreateNestedManyWithoutSpecialtiesInput
 }
 
@@ -215,6 +241,8 @@ export type SpecialtiesUncheckedCreateInput = {
   id?: string
   title: string
   icon: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   doctorSpecialties?: Prisma.DoctorSpecialtiesUncheckedCreateNestedManyWithoutSpecialtiesInput
 }
 
@@ -222,6 +250,8 @@ export type SpecialtiesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorSpecialties?: Prisma.DoctorSpecialtiesUpdateManyWithoutSpecialtiesNestedInput
 }
 
@@ -229,6 +259,8 @@ export type SpecialtiesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorSpecialties?: Prisma.DoctorSpecialtiesUncheckedUpdateManyWithoutSpecialtiesNestedInput
 }
 
@@ -236,36 +268,48 @@ export type SpecialtiesCreateManyInput = {
   id?: string
   title: string
   icon: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SpecialtiesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SpecialtiesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SpecialtiesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   icon?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SpecialtiesMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   icon?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SpecialtiesMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   icon?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SpecialtiesScalarRelationFilter = {
@@ -291,12 +335,16 @@ export type SpecialtiesCreateWithoutDoctorSpecialtiesInput = {
   id?: string
   title: string
   icon: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SpecialtiesUncheckedCreateWithoutDoctorSpecialtiesInput = {
   id?: string
   title: string
   icon: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SpecialtiesCreateOrConnectWithoutDoctorSpecialtiesInput = {
@@ -319,12 +367,16 @@ export type SpecialtiesUpdateWithoutDoctorSpecialtiesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SpecialtiesUncheckedUpdateWithoutDoctorSpecialtiesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -362,6 +414,8 @@ export type SpecialtiesSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   id?: boolean
   title?: boolean
   icon?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   doctorSpecialties?: boolean | Prisma.Specialties$doctorSpecialtiesArgs<ExtArgs>
   _count?: boolean | Prisma.SpecialtiesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["specialties"]>
@@ -370,21 +424,27 @@ export type SpecialtiesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   id?: boolean
   title?: boolean
   icon?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["specialties"]>
 
 export type SpecialtiesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
   icon?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["specialties"]>
 
 export type SpecialtiesSelectScalar = {
   id?: boolean
   title?: boolean
   icon?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type SpecialtiesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "icon", ExtArgs["result"]["specialties"]>
+export type SpecialtiesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "icon" | "createdAt" | "updatedAt", ExtArgs["result"]["specialties"]>
 export type SpecialtiesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   doctorSpecialties?: boolean | Prisma.Specialties$doctorSpecialtiesArgs<ExtArgs>
   _count?: boolean | Prisma.SpecialtiesCountOutputTypeDefaultArgs<ExtArgs>
@@ -401,6 +461,8 @@ export type $SpecialtiesPayload<ExtArgs extends runtime.Types.Extensions.Interna
     id: string
     title: string
     icon: string
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["specialties"]>
   composites: {}
 }
@@ -828,6 +890,8 @@ export interface SpecialtiesFieldRefs {
   readonly id: Prisma.FieldRef<"Specialties", 'String'>
   readonly title: Prisma.FieldRef<"Specialties", 'String'>
   readonly icon: Prisma.FieldRef<"Specialties", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Specialties", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Specialties", 'DateTime'>
 }
     
 

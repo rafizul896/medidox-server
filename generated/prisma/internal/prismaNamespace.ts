@@ -1073,7 +1073,9 @@ export type DoctorScheduleScalarFieldEnum = (typeof DoctorScheduleScalarFieldEnu
 export const SpecialtiesScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  icon: 'icon'
+  icon: 'icon',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type SpecialtiesScalarFieldEnum = (typeof SpecialtiesScalarFieldEnum)[keyof typeof SpecialtiesScalarFieldEnum]
@@ -1081,7 +1083,9 @@ export type SpecialtiesScalarFieldEnum = (typeof SpecialtiesScalarFieldEnum)[key
 
 export const DoctorSpecialtiesScalarFieldEnum = {
   specialtiesId: 'specialtiesId',
-  doctorId: 'doctorId'
+  doctorId: 'doctorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type DoctorSpecialtiesScalarFieldEnum = (typeof DoctorSpecialtiesScalarFieldEnum)[keyof typeof DoctorSpecialtiesScalarFieldEnum]
