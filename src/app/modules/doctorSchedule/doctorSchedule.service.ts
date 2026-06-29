@@ -1,4 +1,6 @@
 import { prisma } from "../../../../prisma/prisma";
+import AppError from "../../errors/AppError";
+import httpStatus from "http-status";
 
 const createDoctorSchedule = async (
   email: string,
@@ -11,7 +13,7 @@ const createDoctorSchedule = async (
   });
 
   if (!doctor) {
-    throw new Error("Doctor isn't founded");
+    throw new AppError(httpStatus.NOT_FOUND,"Doctor isn't founded");
   }
 
   const doctorScheduleData = payload.scheduleIds.map((scheduleId) => ({

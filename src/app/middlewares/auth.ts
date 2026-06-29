@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { verifyToken } from "../helper/generateToken";
 import config from "../../config";
+import AppError from "../errors/AppError";
+import httpStatus from "http-status";
 
 const auth =
   (...roles: string[]) =>
@@ -9,7 +11,7 @@ const auth =
       const token = req.cookies.accessToken;
 
       if (!token) {
-        throw new Error("You are not authorized!");
+        throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized!");
       }
 
       const verifyUser = verifyToken(
@@ -20,7 +22,7 @@ const auth =
       req.user = verifyUser;
 
       if (roles.length && !roles.includes(verifyUser.role)) {
-        throw new Error("You are not authorized!");
+        throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized!");
       }
 
       next();

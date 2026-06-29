@@ -1,6 +1,8 @@
 import { format, addHours, addMinutes } from "date-fns";
 import { prisma } from "../../../../prisma/prisma";
 import { IOptions, paginationHelper } from "../../helper/paginationHelper";
+import AppError from "../../errors/AppError";
+import httpStatus from "http-status";
 
 const createSchedule = async (payload: any) => {
   const { startTime, endTime, startDate, endDate } = payload;
@@ -45,7 +47,8 @@ const createSchedule = async (payload: any) => {
       });
 
       if (isExistingSchedule) {
-        throw new Error(
+        throw new AppError(
+          httpStatus.CONFLICT,
           "A schedule with the same time already exists in the database. Please choose a different time slot.",
         );
       }
@@ -86,7 +89,9 @@ const schedulesForDoctor = async (
     },
   });
 
-  const doctorScheduleIds = doctorSchedules.map(schedule => schedule.scheduleId);
+  const doctorScheduleIds = doctorSchedules.map(
+    (schedule) => schedule.scheduleId,
+  );
 
   const result = await prisma.schedule.findMany({
     where: {
@@ -115,9 +120,9 @@ const schedulesForDoctor = async (
       endDateTime: {
         lte: new Date(query.endDate as string),
       },
-       id: {
+      id: {
         notIn: doctorScheduleIds,
-      }
+      },
     },
   });
 

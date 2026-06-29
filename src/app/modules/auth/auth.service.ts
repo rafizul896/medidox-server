@@ -1,9 +1,10 @@
 import { UserStatus } from "../../../../generated/prisma/enums";
 import { prisma } from "../../../../prisma/prisma";
 import bcrypt from "bcryptjs";
-import jwt, { SignOptions } from "jsonwebtoken";
 import config from "../../../config";
 import { generateToken } from "../../helper/generateToken";
+import AppError from "../../errors/AppError";
+import httpStatus from "http-status";
 
 const login = async (payload: { email: string; password: string }) => {
   const user = await prisma.user.findUniqueOrThrow({
@@ -19,7 +20,7 @@ const login = async (payload: { email: string; password: string }) => {
   );
 
   if (!isCorrectPassword) {
-    throw new Error("Password is not correct");
+    throw new AppError(httpStatus.BAD_REQUEST, "Password is not correct");
   }
 
   const jwtPayload = {
@@ -27,24 +28,24 @@ const login = async (payload: { email: string; password: string }) => {
     role: user.role,
   };
 
-  const accessToken =  generateToken(
+  const accessToken = generateToken(
     jwtPayload,
     config.JWT.JWT_ACCESS_SECRET as string,
     config.JWT.JWT_ACCESS_EXPIRES as string,
   );
 
-  const refreshToken =  generateToken(
+  const refreshToken = generateToken(
     jwtPayload,
     config.JWT.JWT_REFRESH_SECRET as string,
     config.JWT.JWT_REFRESH_EXPIRES as string,
   );
 
-  console.log(accessToken,refreshToken)
+  console.log(accessToken, refreshToken);
 
   return {
     accessToken,
     refreshToken,
-    needPasswordChange: user.needPasswordChange
+    needPasswordChange: user.needPasswordChange,
   };
 };
 
