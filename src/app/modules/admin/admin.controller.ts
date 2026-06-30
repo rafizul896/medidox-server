@@ -44,8 +44,22 @@ const softDeleteFromDB = catchAsync(async (req, res, next) => {
   });
 });
 
+const updateIntoDB = catchAsync(async (req, res, next) => {
+  const id = req.params.id;
+  const result = await AdminService.updateIntoDB(id, req);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Admin is updated successfully!",
+    data: result,
+  });
+});
+
+
 export const AdminController = {
   getAllFromDB,
   getByIdFromDB,
   softDeleteFromDB,
+  updateIntoDB
 };

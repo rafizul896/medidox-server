@@ -1,7 +1,12 @@
+import { Request } from "express";
 import { Admin, Prisma, UserStatus } from "../../../../generated/prisma/client";
+import { AdminUpdateInput } from "../../../../generated/prisma/models";
 import { prisma } from "../../../../prisma/prisma";
+import AppError from "../../errors/AppError";
+import { fileUploder } from "../../helper/fileUploader";
 import { IOptions, paginationHelper } from "../../helper/paginationHelper";
 import { adminSearchAbleFields } from "./admin.constant";
+import httpStatus from "http-status";
 
 const getAllFromDB = async (
   query: Record<string, unknown>,
@@ -112,8 +117,40 @@ const softDeleteFromDB = async (id: string): Promise<Admin | null> => {
   return result;
 };
 
+const updateIntoDB = async (id: string, req: Request) => {
+  const adminData: AdminUpdateInput = req.body;
+
+  const admin = await prisma.admin.findUnique({
+    where: { id },
+  });
+
+  if (!admin) {
+    throw new AppError(httpStatus.NOT_FOUND, "Admin isn't founded");
+  }
+
+  if (req.file) {
+    const result = await fileUploder.uploadToCloudinary(req.file);
+
+    adminData.profilePhoto = result?.secure_url;
+  }
+
+  const result = await prisma.admin.update({
+    where: {
+      id,
+    },
+    data: adminData,
+  });
+
+  if (adminData.profilePhoto && admin.profilePhoto) {
+    await fileUploder.deletePhotoFromCaudinary(admin.profilePhoto as string);
+  }
+
+  return result;
+};
+
 export const AdminService = {
   getAllFromDB,
   getByIdFromDB,
   softDeleteFromDB,
+  updateIntoDB,
 };
