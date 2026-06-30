@@ -13,11 +13,11 @@ import { patientSearchableFields } from "./patient.constant";
 import httpStatus from "http-status";
 
 const getAllFromDB = async (
-  filters: Record<string, unknown>,
+  query: Record<string, unknown>,
   options: IOptions,
 ) => {
   const { limit, page, skip } = paginationHelper.calculatePagination(options);
-  const { searchTerm, ...filterData } = filters;
+  const { searchTerm, ...filterData } = query;
 
   const andConditions = [];
 
