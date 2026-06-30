@@ -16,13 +16,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-const uploadToCloudinary = async (file: Express.Multer.File) => {
-  cloudinary.config({
-    cloud_name: config.CLOUDINARY.CLOUDINARY_CLOUD_NAME,
-    api_key: config.CLOUDINARY.CLOUDINARY_API_KEY,
-    api_secret: config.CLOUDINARY.CLOUDINARY_API_SECRET,
-  });
+cloudinary.config({
+  cloud_name: config.CLOUDINARY.CLOUDINARY_CLOUD_NAME,
+  api_key: config.CLOUDINARY.CLOUDINARY_API_KEY,
+  api_secret: config.CLOUDINARY.CLOUDINARY_API_SECRET,
+});
 
+const uploadToCloudinary = async (file: Express.Multer.File) => {
   const uploadResult = await cloudinary.uploader.upload(file.path, {
     public_id: file.filename,
   });
@@ -30,7 +30,33 @@ const uploadToCloudinary = async (file: Express.Multer.File) => {
   return uploadResult;
 };
 
+const deleteProfilePhoto = async (prevProfilePhoto: string) => {
+  try {
+    let publicId: string | undefined;
+
+    if (!prevProfilePhoto.startsWith("http")) {
+      publicId = prevProfilePhoto;
+    } else {
+      const parts = prevProfilePhoto.split("/");
+      const lastPart = parts[parts.length - 1];
+      publicId = lastPart.split(".")[0];
+    }
+
+    if (publicId) {
+      const result = await cloudinary.uploader.destroy(publicId);
+
+      return result;
+    }
+
+    return { result: "not_found" };
+  } catch (error) {
+    console.error("Error deleting profile photo:", error);
+    throw error;
+  }
+};
+
 export const fileUploder = {
   upload,
   uploadToCloudinary,
+  deleteProfilePhoto,
 };

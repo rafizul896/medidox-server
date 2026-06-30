@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { Prisma } from "../../../../generated/prisma/client";
 import { DoctorUpdateInput } from "../../../../generated/prisma/models";
 import { prisma } from "../../../../prisma/prisma";
@@ -5,6 +6,7 @@ import AppError from "../../errors/AppError";
 import { IOptions, paginationHelper } from "../../helper/paginationHelper";
 import { doctorSearchAbleFields } from "./doctor.constant";
 import httpStatus from "http-status";
+import { fileUploder } from "../../helper/fileUploader";
 
 const getAllFromDB = async (
   query: Record<string, unknown>,
@@ -85,10 +87,9 @@ const getAllFromDB = async (
   };
 };
 
-const updateIntoDB = async (
-  id: string,
-  payload: DoctorUpdateInput & { specialties: string },
-) => {
+const updateIntoDB = async (id: string, req: Request) => {
+  const doctorData: DoctorUpdateInput = req.body;
+
   const doctor = await prisma.doctor.findUnique({
     where: { id },
   });
@@ -97,19 +98,83 @@ const updateIntoDB = async (
     throw new AppError(httpStatus.NOT_FOUND, "Doctor isn't founded");
   }
 
-  const { specialties, ...doctorData } = payload;
+  if (req.file) {
+    const result = await fileUploder.uploadToCloudinary(req.file);
+
+    doctorData.profilePhoto = result?.secure_url;
+  }
 
   const result = await prisma.doctor.update({
     where: {
       id,
     },
     data: doctorData,
+    include: {
+      doctorSpecialties: {
+        include: {
+          specialties: true,
+        },
+      },
+    },
   });
 
+  if (doctorData.profilePhoto && doctor.profilePhoto) {
+    console.log("//")
+    await fileUploder.deleteProfilePhoto(doctor.profilePhoto as string);
+  }
+
   return result;
+};
+
+const doctorSpecialties = async (
+  id: string,
+  payload: {
+    specialties: string[];
+    removeSpecialties: string[];
+  },
+) => {
+  const { specialties, removeSpecialties } = payload;
+
+  await prisma.$transaction(async (tx) => {
+    if (removeSpecialties?.length) {
+      await tx.doctorSpecialties.deleteMany({
+        where: {
+          doctorId: id,
+          specialtiesId: {
+            in: removeSpecialties,
+          },
+        },
+      });
+    }
+
+    if (specialties?.length) {
+      console.log("hey");
+      await tx.doctorSpecialties.createMany({
+        data: specialties?.map((specialtiesId) => ({
+          doctorId: id,
+          specialtiesId: specialtiesId,
+        })),
+        skipDuplicates: true,
+      });
+    }
+  });
+
+  return await prisma.doctor.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      doctorSpecialties: {
+        include: {
+          specialties: true,
+        },
+      },
+    },
+  });
 };
 
 export const DoctorService = {
   getAllFromDB,
   updateIntoDB,
+  doctorSpecialties,
 };

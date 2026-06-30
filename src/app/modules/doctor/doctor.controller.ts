@@ -21,12 +21,25 @@ const getAllFromDB = catchAsync(async (req, res, next) => {
 
 const updateIntoDB = catchAsync(async (req, res, next) => {
   const id = req.params.id;
-  const result = await DoctorService.updateIntoDB(id, req.body);
+
+  const result = await DoctorService.updateIntoDB(id, req);
 
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Doctor fetched successfully!",
+    message: "Doctor updated successfully!",
+    data: result,
+  });
+});
+
+const doctorSpecialties = catchAsync(async (req, res, next) => {
+  const id = req.params.id;
+  const result = await DoctorService.doctorSpecialties(id, req.body);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Doctor specialties updated successfully!",
     data: result,
   });
 });
@@ -34,4 +47,5 @@ const updateIntoDB = catchAsync(async (req, res, next) => {
 export const DoctorController = {
   getAllFromDB,
   updateIntoDB,
+  doctorSpecialties,
 };
