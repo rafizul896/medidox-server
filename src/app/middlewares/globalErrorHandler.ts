@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import { Prisma } from "../../../generated/prisma/client";
 
-const globalErrorHandler = (
+const globalErrorHandler = async (
   err: any,
   req: Request,
   res: Response,
