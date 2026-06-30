@@ -1,11 +1,16 @@
+import { Request } from "express";
 import {
   Patient,
   Prisma,
   UserStatus,
 } from "../../../../generated/prisma/client";
+import { PatientUpdateInput } from "../../../../generated/prisma/models";
 import { prisma } from "../../../../prisma/prisma";
+import AppError from "../../errors/AppError";
+import { fileUploder } from "../../helper/fileUploader";
 import { IOptions, paginationHelper } from "../../helper/paginationHelper";
 import { patientSearchableFields } from "./patient.constant";
+import httpStatus from "http-status";
 
 const getAllFromDB = async (
   filters: Record<string, unknown>,
@@ -102,8 +107,40 @@ const softDelete = async (id: string): Promise<Patient | null> => {
   });
 };
 
+const updateIntoDB = async (id: string, req: Request) => {
+  const patientData: PatientUpdateInput = req.body;
+
+  const patient = await prisma.patient.findUnique({
+    where: { id },
+  });
+
+  if (!patient) {
+    throw new AppError(httpStatus.NOT_FOUND, "Patient isn't founded");
+  }
+
+  if (req.file) {
+    const result = await fileUploder.uploadToCloudinary(req.file);
+
+    patientData.profilePhoto = result?.secure_url;
+  }
+
+  const result = await prisma.patient.update({
+    where: {
+      id,
+    },
+    data: patientData,
+  });
+
+  if (patientData.profilePhoto && patient.profilePhoto) {
+    await fileUploder.deletePhotoFromCaudinary(patient.profilePhoto as string);
+  }
+
+  return result;
+};
+
 export const PatientService = {
   getAllFromDB,
   getByIdFromDB,
   softDelete,
+  updateIntoDB,
 };
