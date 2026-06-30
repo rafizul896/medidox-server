@@ -1,5 +1,8 @@
 import { format, addHours, addMinutes } from "date-fns";
 import { prisma } from "../../../../prisma/prisma";
+import { IOptions, paginationHelper } from "../../helper/paginationHelper";
+import AppError from "../../errors/AppError";
+import httpStatus from "http-status";
 
 const createSchedule = async (payload: any) => {
   const { startTime, endTime, startDate, endDate } = payload;
@@ -44,7 +47,8 @@ const createSchedule = async (payload: any) => {
       });
 
       if (isExistingSchedule) {
-        throw new Error(
+        throw new AppError(
+          httpStatus.CONFLICT,
           "A schedule with the same time already exists in the database. Please choose a different time slot.",
         );
       }
@@ -66,6 +70,83 @@ const createSchedule = async (payload: any) => {
   return schedules;
 };
 
+const schedulesForDoctor = async (
+  email: string,
+  query: { startDate?: string; endDate?: string },
+  options: IOptions,
+) => {
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelper.calculatePagination(options);
+
+  const doctorSchedules = await prisma.doctorSchedule.findMany({
+    where: {
+      doctor: {
+        email,
+      },
+    },
+    select: {
+      scheduleId: true,
+    },
+  });
+
+  const doctorScheduleIds = doctorSchedules.map(
+    (schedule) => schedule.scheduleId,
+  );
+
+  const result = await prisma.schedule.findMany({
+    where: {
+      startDateTime: {
+        gte: new Date(query.startDate as string),
+      },
+      endDateTime: {
+        lte: new Date(query.endDate as string),
+      },
+      id: {
+        notIn: doctorScheduleIds,
+      },
+    },
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    skip,
+    take: limit,
+  });
+
+  const total = await prisma.schedule.count({
+    where: {
+      startDateTime: {
+        gte: new Date(query.startDate as string),
+      },
+      endDateTime: {
+        lte: new Date(query.endDate as string),
+      },
+      id: {
+        notIn: doctorScheduleIds,
+      },
+    },
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPage: Math.ceil(total / limit),
+    },
+    data: result,
+  };
+};
+
+const deleteScheduleFromDB = async (id: string) => {
+  return await prisma.schedule.delete({
+    where: {
+      id,
+    },
+  });
+};
+
 export const ScheduleService = {
   createSchedule,
+  schedulesForDoctor,
+  deleteScheduleFromDB,
 };
