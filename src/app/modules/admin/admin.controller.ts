@@ -20,6 +20,32 @@ const getAllFromDB = catchAsync(async (req, res, next) => {
   });
 });
 
+const getByIdFromDB = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  const result = await AdminService.getByIdFromDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Admin data fetched by id!",
+    data: result,
+  });
+});
+
+const softDeleteFromDB = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await AdminService.softDeleteFromDB(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Admin data deleted!",
+    data: result,
+  });
+});
+
 export const AdminController = {
   getAllFromDB,
+  getByIdFromDB,
+  softDeleteFromDB,
 };
