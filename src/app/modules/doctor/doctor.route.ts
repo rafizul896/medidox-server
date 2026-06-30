@@ -14,12 +14,17 @@ router.get("/:id", DoctorController.getByIdFromDB);
 
 router.patch(
   "/:id",
+  auth(Role.DOCTOR),
   fileUploder.upload.single("file"),
   validateRequest(updateDoctorValidationSchema),
   DoctorController.updateIntoDB,
 );
 
-router.patch("/specialty/:id", DoctorController.doctorSpecialties);
+router.patch(
+  "/specialty/:id",
+  auth(Role.DOCTOR),
+  DoctorController.doctorSpecialties,
+);
 
 router.delete(
   "/soft/:id",

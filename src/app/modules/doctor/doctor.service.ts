@@ -144,7 +144,6 @@ const updateIntoDB = async (id: string, req: Request) => {
   });
 
   if (doctorData.profilePhoto && doctor.profilePhoto) {
-    console.log("//");
     await fileUploder.deletePhotoFromCaudinary(doctor.profilePhoto as string);
   }
 
