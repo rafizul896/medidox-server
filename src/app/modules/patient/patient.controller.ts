@@ -14,12 +14,38 @@ const getAllFromDB = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Patient retrieval successfully",
+    message: "Patients are retrieved successfully",
     meta: result.meta,
     data: result.data,
   });
 });
 
+const getByIdFromDB = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await PatientService.getByIdFromDB(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Patient is retrieved successfully",
+    data: result,
+  });
+});
+
+const softDelete = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await PatientService.softDelete(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Patient soft deleted successfully",
+    data: result,
+  });
+});
+
 export const PatientController = {
   getAllFromDB,
+  getByIdFromDB,
+  softDelete,
 };
