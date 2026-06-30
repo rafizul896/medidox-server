@@ -2,6 +2,7 @@ import multer from "multer";
 import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 import config from "../../config";
+import fs from "fs";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -23,14 +24,21 @@ cloudinary.config({
 });
 
 const uploadToCloudinary = async (file: Express.Multer.File) => {
-  const uploadResult = await cloudinary.uploader.upload(file.path, {
-    public_id: file.filename,
-  });
+  try {
+    const uploadResult = await cloudinary.uploader.upload(file.path, {
+      public_id: file.filename,
+    });
 
-  return uploadResult;
+    await fs.promises.unlink(file.path);
+
+    return uploadResult;
+  } catch (err) {
+    await fs.promises.unlink(file.path);
+    throw err;
+  }
 };
 
-const deleteProfilePhoto = async (prevProfilePhoto: string) => {
+const deletePhotoFromCaudinary = async (prevProfilePhoto: string) => {
   try {
     let publicId: string | undefined;
 
@@ -49,14 +57,14 @@ const deleteProfilePhoto = async (prevProfilePhoto: string) => {
     }
 
     return { result: "not_found" };
-  } catch (error) {
-    console.error("Error deleting profile photo:", error);
-    throw error;
+  } catch (err) {
+    console.error("Error deleting profile photo:", err);
+    throw err;
   }
 };
 
 export const fileUploder = {
   upload,
   uploadToCloudinary,
-  deleteProfilePhoto,
+  deletePhotoFromCaudinary,
 };
