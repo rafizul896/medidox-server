@@ -3,10 +3,14 @@ import { DoctorController } from "./doctor.controller";
 import { fileUploder } from "../../helper/fileUploader";
 import validateRequest from "../../middlewares/validateRequest";
 import { updateDoctorValidationSchema } from "./doctor.validation";
+import auth from "../../middlewares/auth";
+import { Role } from "../../../../generated/prisma/enums";
 
 const router = Router();
 
 router.get("/", DoctorController.getAllFromDB);
+
+router.get("/:id", DoctorController.getByIdFromDB);
 
 router.patch(
   "/:id",
@@ -16,5 +20,11 @@ router.patch(
 );
 
 router.patch("/specialty/:id", DoctorController.doctorSpecialties);
+
+router.delete(
+  "/soft/:id",
+  auth(Role.ADMIN, Role.DOCTOR),
+  DoctorController.softDelete,
+);
 
 export const DoctorRoutes = router;
