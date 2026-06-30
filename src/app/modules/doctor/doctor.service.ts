@@ -1,5 +1,9 @@
 import { Request } from "express";
-import { Prisma } from "../../../../generated/prisma/client";
+import {
+  Doctor,
+  Prisma,
+  UserStatus,
+} from "../../../../generated/prisma/client";
 import { DoctorUpdateInput } from "../../../../generated/prisma/models";
 import { prisma } from "../../../../prisma/prisma";
 import AppError from "../../errors/AppError";
@@ -87,6 +91,27 @@ const getAllFromDB = async (
   };
 };
 
+const getByIdFromDB = async (id: string): Promise<Doctor | null> => {
+  return await prisma.doctor.findUnique({
+    where: {
+      id,
+      isDeleted: false,
+    },
+    include: {
+      doctorSpecialties: {
+        include: {
+          specialties: true,
+        },
+      },
+      doctorSchedules: {
+        include: {
+          schedule: true,
+        },
+      },
+    },
+  });
+};
+
 const updateIntoDB = async (id: string, req: Request) => {
   const doctorData: DoctorUpdateInput = req.body;
 
@@ -119,7 +144,6 @@ const updateIntoDB = async (id: string, req: Request) => {
   });
 
   if (doctorData.profilePhoto && doctor.profilePhoto) {
-    console.log("//")
     await fileUploder.deletePhotoFromCaudinary(doctor.profilePhoto as string);
   }
 
@@ -173,8 +197,32 @@ const doctorSpecialties = async (
   });
 };
 
+const softDelete = async (id: string): Promise<Doctor> => {
+  return await prisma.$transaction(async (transactionClient) => {
+    const deleteDoctor = await transactionClient.doctor.update({
+      where: { id },
+      data: {
+        isDeleted: true,
+      },
+    });
+
+    await transactionClient.user.update({
+      where: {
+        email: deleteDoctor.email,
+      },
+      data: {
+        status: UserStatus.DELETED,
+      },
+    });
+
+    return deleteDoctor;
+  });
+};
+
 export const DoctorService = {
   getAllFromDB,
+  getByIdFromDB,
   updateIntoDB,
   doctorSpecialties,
+  softDelete,
 };
