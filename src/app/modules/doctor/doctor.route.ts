@@ -10,6 +10,8 @@ const router = Router();
 
 router.get("/", DoctorController.getAllFromDB);
 
+router.get("/suggestion", DoctorController.getAISuggestions)
+
 router.get("/:id", DoctorController.getByIdFromDB);
 
 router.patch(

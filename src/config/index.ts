@@ -8,6 +8,7 @@ export default {
   PORT: process.env.PORT,
   DATABASE_URL: process.env.DATABASE_URL,
   BCRYPT_SALT_ROUND: process.env.BCRYPT_SALT_ROUND,
+  OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
   JWT: {
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
     JWT_ACCESS_EXPIRES: process.env.JWT_ACCESS_EXPIRES,

@@ -219,10 +219,34 @@ const softDelete = async (id: string): Promise<Doctor> => {
   });
 };
 
+const getAISuggestions = async (symptoms: string) => {
+  if (!symptoms) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Symptom is required!");
+  }
+
+  const doctors = await prisma.doctor.findMany({
+    where: {
+      isDeleted: false,
+    },
+    include: {
+      doctorSpecialties: {
+        include: {
+          specialties: true,
+        },
+      },
+    },
+  });
+
+  
+
+  console.log(doctors);
+};
+
 export const DoctorService = {
   getAllFromDB,
   getByIdFromDB,
   updateIntoDB,
   doctorSpecialties,
   softDelete,
+  getAISuggestions,
 };

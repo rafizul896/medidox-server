@@ -19,15 +19,15 @@ const getAllFromDB = catchAsync(async (req, res, next) => {
   });
 });
 
-const getByIdFromDB = catchAsync(async (req,res,next) => {
-    const { id } = req.params;
-    const result = await DoctorService.getByIdFromDB(id);
-    sendResponse(res, {
-        statusCode: 200,
-        success: true,
-        message: 'Doctor retrieval successfully',
-        data: result,
-    });
+const getByIdFromDB = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await DoctorService.getByIdFromDB(id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Doctor retrieval successfully",
+    data: result,
+  });
 });
 
 const updateIntoDB = catchAsync(async (req, res, next) => {
@@ -67,10 +67,23 @@ const softDelete = catchAsync(async (req, res, next) => {
   });
 });
 
+const getAISuggestions = catchAsync(async (req, res, next) => {
+  const symptoms = req.query.symptoms as string;
+  const result = await DoctorService.getAISuggestions(symptoms);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "AI suggestions fetched successfully",
+    data: result,
+  });
+});
+
 export const DoctorController = {
   getAllFromDB,
   getByIdFromDB,
   updateIntoDB,
   doctorSpecialties,
   softDelete,
+  getAISuggestions,
 };
