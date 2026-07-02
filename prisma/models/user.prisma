@@ -39,7 +39,7 @@ model Doctor {
   registrationNumber  String
   experience          Int      @default(0)
   gender              Gender
-  appointmentFee      Int
+  appointmentFee      Int      @default(0)
   qualification       String
   currentWorkingPlace String
   designation         String

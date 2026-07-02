@@ -421,7 +421,7 @@ export type DoctorCreateInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -445,7 +445,7 @@ export type DoctorUncheckedCreateInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -514,7 +514,7 @@ export type DoctorCreateManyInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -746,7 +746,7 @@ export type DoctorCreateWithoutAppointmentsInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -769,7 +769,7 @@ export type DoctorUncheckedCreateWithoutAppointmentsInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -850,7 +850,7 @@ export type DoctorCreateWithoutPrescriptionsInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -873,7 +873,7 @@ export type DoctorUncheckedCreateWithoutPrescriptionsInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -954,7 +954,7 @@ export type DoctorCreateWithoutDoctorSchedulesInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -977,7 +977,7 @@ export type DoctorUncheckedCreateWithoutDoctorSchedulesInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -1058,7 +1058,7 @@ export type DoctorCreateWithoutDoctorSpecialtiesInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -1081,7 +1081,7 @@ export type DoctorUncheckedCreateWithoutDoctorSpecialtiesInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -1162,7 +1162,7 @@ export type DoctorCreateWithoutUserInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string
@@ -1184,7 +1184,7 @@ export type DoctorUncheckedCreateWithoutUserInput = {
   registrationNumber: string
   experience?: number
   gender: $Enums.Gender
-  appointmentFee: number
+  appointmentFee?: number
   qualification: string
   currentWorkingPlace: string
   designation: string

@@ -45,7 +45,7 @@ const createAppointment = async (
       data: appointmentData,
     });
 
-    await prisma.doctorSchedule.update({
+    await tx.doctorSchedule.update({
       where: {
         doctorId_scheduleId: {
           doctorId: payload.doctorId,
@@ -54,6 +54,16 @@ const createAppointment = async (
       },
       data: {
         isBooked: true,
+      },
+    });
+
+    const transactionId = uuidv4();
+
+    await tx.payment.create({
+      data: {
+        appointmentId: result.id,
+        amount: doctorData?.appointmentFee as number,
+        transactionId,
       },
     });
 
