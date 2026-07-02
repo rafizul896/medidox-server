@@ -5,6 +5,7 @@ model Schedule {
     createdAt       DateTime         @default(now())
     updatedAt       DateTime         @updatedAt
     doctorSchedules DoctorSchedule[]
+    appointments    Appointment[]
 
     @@map("schedules")
 }
@@ -14,7 +15,7 @@ model DoctorSchedule {
     doctor     Doctor   @relation(fields: [doctorId], references: [id])
     scheduleId String
     schedule   Schedule @relation(fields: [scheduleId], references: [id])
-    idBooked   Boolean  @default(false)
+    isBooked   Boolean  @default(false)
     createdAt  DateTime @default(now())
     updatedAt  DateTime @updatedAt
 
