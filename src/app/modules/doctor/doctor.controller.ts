@@ -22,6 +22,7 @@ const getAllFromDB = catchAsync(async (req, res, next) => {
 const getByIdFromDB = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const result = await DoctorService.getByIdFromDB(id);
+ 
   sendResponse(res, {
     statusCode: 200,
     success: true,

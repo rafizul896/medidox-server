@@ -75,6 +75,11 @@ const getAllFromDB = async (
           specialties: true,
         },
       },
+      doctorSchedules: {
+        include: {
+          schedule: true,
+        },
+      },
     },
   });
 
@@ -93,7 +98,7 @@ const getAllFromDB = async (
 };
 
 const getByIdFromDB = async (id: string): Promise<Doctor | null> => {
-  return await prisma.doctor.findUnique({
+  const result = await prisma.doctor.findUnique({
     where: {
       id,
       isDeleted: false,
@@ -111,6 +116,12 @@ const getByIdFromDB = async (id: string): Promise<Doctor | null> => {
       },
     },
   });
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Doctor doesn't founded");
+  }
+
+  return result;
 };
 
 const updateIntoDB = async (id: string, req: Request) => {
@@ -311,7 +322,7 @@ Do not include any extra text.
     });
 
     const content = completion.choices[0]?.message?.content;
-    console.log(content)
+    console.log(content);
 
     if (!content) {
       throw new AppError(
@@ -321,7 +332,7 @@ Do not include any extra text.
     }
 
     const parsed = JSON.parse(content);
-    console.log(parsed)
+    console.log(parsed);
 
     const doctorIds = parsed.recommendedDoctors.map(
       (doctor: { id: string }) => doctor.id,
