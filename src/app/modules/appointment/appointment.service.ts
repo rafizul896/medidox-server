@@ -1,9 +1,10 @@
-import { Appointment, Prisma } from "../../../../generated/prisma/client";
+import { Appointment, Prisma, Role } from "../../../../generated/prisma/client";
 import { prisma } from "../../../../prisma/prisma";
 import { v4 as uuidv4 } from "uuid";
 import { stripe } from "../../helper/stripe";
 import config from "../../../config";
 import { IOptions, paginationHelper } from "../../helper/paginationHelper";
+import { JwtPayload } from "jsonwebtoken";
 
 const createAppointment = async (
   email: string,
@@ -166,9 +167,71 @@ const getAllFromDB = async (filters: any, options: IOptions) => {
   };
 };
 
+const getMyAppointment = async (
+  user: JwtPayload,
+  filters: any,
+  options: IOptions,
+) => {
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelper.calculatePagination(options);
+  const { ...filterData } = filters;
 
+  const andConditions: Prisma.AppointmentWhereInput[] = [];
+
+  if (user.role === Role.PATIENT) {
+    andConditions.push({
+      patient: {
+        email: user.email,
+      },
+    });
+  } else if (user.role === Role.DOCTOR) {
+    andConditions.push({
+      doctor: {
+        email: user.email,
+      },
+    });
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    const filterConditions = Object.keys(filterData).map((key) => ({
+      [key]: {
+        equals: (filterData as any)[key],
+      },
+    }));
+
+    andConditions.push(...filterConditions);
+  }
+
+  const whereConditions: Prisma.AppointmentWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : {};
+
+  const result = await prisma.appointment.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    include: user.role === Role.DOCTOR ? { patient: true } : { doctor: true },
+  });
+
+  const total = await prisma.appointment.count({
+    where: whereConditions,
+  });
+
+  return {
+    meta: {
+      total,
+      limit,
+      page,
+      totalPage: Math.ceil(total / limit),
+    },
+    data: result,
+  };
+};
 
 export const AppointmentService = {
   createAppointment,
   getAllFromDB,
+  getMyAppointment,
 };
