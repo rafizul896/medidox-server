@@ -30,11 +30,7 @@ export type PrescriptionMinAggregateOutputType = {
   doctorId: string | null
   patientId: string | null
   instructions: string | null
-  medications: string | null
-  dosage: string | null
-  notes: string | null
   followUpDate: Date | null
-  nextVisitRequired: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -45,11 +41,7 @@ export type PrescriptionMaxAggregateOutputType = {
   doctorId: string | null
   patientId: string | null
   instructions: string | null
-  medications: string | null
-  dosage: string | null
-  notes: string | null
   followUpDate: Date | null
-  nextVisitRequired: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -60,11 +52,7 @@ export type PrescriptionCountAggregateOutputType = {
   doctorId: number
   patientId: number
   instructions: number
-  medications: number
-  dosage: number
-  notes: number
   followUpDate: number
-  nextVisitRequired: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -77,11 +65,7 @@ export type PrescriptionMinAggregateInputType = {
   doctorId?: true
   patientId?: true
   instructions?: true
-  medications?: true
-  dosage?: true
-  notes?: true
   followUpDate?: true
-  nextVisitRequired?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -92,11 +76,7 @@ export type PrescriptionMaxAggregateInputType = {
   doctorId?: true
   patientId?: true
   instructions?: true
-  medications?: true
-  dosage?: true
-  notes?: true
   followUpDate?: true
-  nextVisitRequired?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -107,11 +87,7 @@ export type PrescriptionCountAggregateInputType = {
   doctorId?: true
   patientId?: true
   instructions?: true
-  medications?: true
-  dosage?: true
-  notes?: true
   followUpDate?: true
-  nextVisitRequired?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -195,11 +171,7 @@ export type PrescriptionGroupByOutputType = {
   doctorId: string
   patientId: string
   instructions: string
-  medications: string | null
-  dosage: string | null
-  notes: string | null
   followUpDate: Date | null
-  nextVisitRequired: boolean
   createdAt: Date
   updatedAt: Date
   _count: PrescriptionCountAggregateOutputType | null
@@ -231,11 +203,7 @@ export type PrescriptionWhereInput = {
   doctorId?: Prisma.StringFilter<"Prescription"> | string
   patientId?: Prisma.StringFilter<"Prescription"> | string
   instructions?: Prisma.StringFilter<"Prescription"> | string
-  medications?: Prisma.StringNullableFilter<"Prescription"> | string | null
-  dosage?: Prisma.StringNullableFilter<"Prescription"> | string | null
-  notes?: Prisma.StringNullableFilter<"Prescription"> | string | null
   followUpDate?: Prisma.DateTimeNullableFilter<"Prescription"> | Date | string | null
-  nextVisitRequired?: Prisma.BoolFilter<"Prescription"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Prescription"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Prescription"> | Date | string
   appointment?: Prisma.XOR<Prisma.AppointmentScalarRelationFilter, Prisma.AppointmentWhereInput>
@@ -249,11 +217,7 @@ export type PrescriptionOrderByWithRelationInput = {
   doctorId?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
   instructions?: Prisma.SortOrder
-  medications?: Prisma.SortOrderInput | Prisma.SortOrder
-  dosage?: Prisma.SortOrderInput | Prisma.SortOrder
-  notes?: Prisma.SortOrderInput | Prisma.SortOrder
   followUpDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  nextVisitRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   appointment?: Prisma.AppointmentOrderByWithRelationInput
@@ -270,11 +234,7 @@ export type PrescriptionWhereUniqueInput = Prisma.AtLeast<{
   doctorId?: Prisma.StringFilter<"Prescription"> | string
   patientId?: Prisma.StringFilter<"Prescription"> | string
   instructions?: Prisma.StringFilter<"Prescription"> | string
-  medications?: Prisma.StringNullableFilter<"Prescription"> | string | null
-  dosage?: Prisma.StringNullableFilter<"Prescription"> | string | null
-  notes?: Prisma.StringNullableFilter<"Prescription"> | string | null
   followUpDate?: Prisma.DateTimeNullableFilter<"Prescription"> | Date | string | null
-  nextVisitRequired?: Prisma.BoolFilter<"Prescription"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Prescription"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Prescription"> | Date | string
   appointment?: Prisma.XOR<Prisma.AppointmentScalarRelationFilter, Prisma.AppointmentWhereInput>
@@ -288,11 +248,7 @@ export type PrescriptionOrderByWithAggregationInput = {
   doctorId?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
   instructions?: Prisma.SortOrder
-  medications?: Prisma.SortOrderInput | Prisma.SortOrder
-  dosage?: Prisma.SortOrderInput | Prisma.SortOrder
-  notes?: Prisma.SortOrderInput | Prisma.SortOrder
   followUpDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  nextVisitRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PrescriptionCountOrderByAggregateInput
@@ -309,11 +265,7 @@ export type PrescriptionScalarWhereWithAggregatesInput = {
   doctorId?: Prisma.StringWithAggregatesFilter<"Prescription"> | string
   patientId?: Prisma.StringWithAggregatesFilter<"Prescription"> | string
   instructions?: Prisma.StringWithAggregatesFilter<"Prescription"> | string
-  medications?: Prisma.StringNullableWithAggregatesFilter<"Prescription"> | string | null
-  dosage?: Prisma.StringNullableWithAggregatesFilter<"Prescription"> | string | null
-  notes?: Prisma.StringNullableWithAggregatesFilter<"Prescription"> | string | null
   followUpDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Prescription"> | Date | string | null
-  nextVisitRequired?: Prisma.BoolWithAggregatesFilter<"Prescription"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Prescription"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Prescription"> | Date | string
 }
@@ -321,11 +273,7 @@ export type PrescriptionScalarWhereWithAggregatesInput = {
 export type PrescriptionCreateInput = {
   id?: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   appointment: Prisma.AppointmentCreateNestedOneWithoutPrescriptionsInput
@@ -339,11 +287,7 @@ export type PrescriptionUncheckedCreateInput = {
   doctorId: string
   patientId: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -351,11 +295,7 @@ export type PrescriptionUncheckedCreateInput = {
 export type PrescriptionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointment?: Prisma.AppointmentUpdateOneRequiredWithoutPrescriptionsNestedInput
@@ -369,11 +309,7 @@ export type PrescriptionUncheckedUpdateInput = {
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -384,11 +320,7 @@ export type PrescriptionCreateManyInput = {
   doctorId: string
   patientId: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -396,11 +328,7 @@ export type PrescriptionCreateManyInput = {
 export type PrescriptionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -411,11 +339,7 @@ export type PrescriptionUncheckedUpdateManyInput = {
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -431,11 +355,7 @@ export type PrescriptionCountOrderByAggregateInput = {
   doctorId?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
   instructions?: Prisma.SortOrder
-  medications?: Prisma.SortOrder
-  dosage?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
   followUpDate?: Prisma.SortOrder
-  nextVisitRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -446,11 +366,7 @@ export type PrescriptionMaxOrderByAggregateInput = {
   doctorId?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
   instructions?: Prisma.SortOrder
-  medications?: Prisma.SortOrder
-  dosage?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
   followUpDate?: Prisma.SortOrder
-  nextVisitRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -461,11 +377,7 @@ export type PrescriptionMinOrderByAggregateInput = {
   doctorId?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
   instructions?: Prisma.SortOrder
-  medications?: Prisma.SortOrder
-  dosage?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
   followUpDate?: Prisma.SortOrder
-  nextVisitRequired?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -514,10 +426,6 @@ export type PrescriptionUncheckedUpdateOneWithoutAppointmentNestedInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type PrescriptionCreateNestedManyWithoutDoctorInput = {
@@ -607,11 +515,7 @@ export type PrescriptionUncheckedUpdateManyWithoutPatientNestedInput = {
 export type PrescriptionCreateWithoutAppointmentInput = {
   id?: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   doctor: Prisma.DoctorCreateNestedOneWithoutPrescriptionsInput
@@ -623,11 +527,7 @@ export type PrescriptionUncheckedCreateWithoutAppointmentInput = {
   doctorId: string
   patientId: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -651,11 +551,7 @@ export type PrescriptionUpdateToOneWithWhereWithoutAppointmentInput = {
 export type PrescriptionUpdateWithoutAppointmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctor?: Prisma.DoctorUpdateOneRequiredWithoutPrescriptionsNestedInput
@@ -667,11 +563,7 @@ export type PrescriptionUncheckedUpdateWithoutAppointmentInput = {
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -679,11 +571,7 @@ export type PrescriptionUncheckedUpdateWithoutAppointmentInput = {
 export type PrescriptionCreateWithoutDoctorInput = {
   id?: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   appointment: Prisma.AppointmentCreateNestedOneWithoutPrescriptionsInput
@@ -695,11 +583,7 @@ export type PrescriptionUncheckedCreateWithoutDoctorInput = {
   appointmentId: string
   patientId: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -739,11 +623,7 @@ export type PrescriptionScalarWhereInput = {
   doctorId?: Prisma.StringFilter<"Prescription"> | string
   patientId?: Prisma.StringFilter<"Prescription"> | string
   instructions?: Prisma.StringFilter<"Prescription"> | string
-  medications?: Prisma.StringNullableFilter<"Prescription"> | string | null
-  dosage?: Prisma.StringNullableFilter<"Prescription"> | string | null
-  notes?: Prisma.StringNullableFilter<"Prescription"> | string | null
   followUpDate?: Prisma.DateTimeNullableFilter<"Prescription"> | Date | string | null
-  nextVisitRequired?: Prisma.BoolFilter<"Prescription"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Prescription"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Prescription"> | Date | string
 }
@@ -751,11 +631,7 @@ export type PrescriptionScalarWhereInput = {
 export type PrescriptionCreateWithoutPatientInput = {
   id?: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   appointment: Prisma.AppointmentCreateNestedOneWithoutPrescriptionsInput
@@ -767,11 +643,7 @@ export type PrescriptionUncheckedCreateWithoutPatientInput = {
   appointmentId: string
   doctorId: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -807,11 +679,7 @@ export type PrescriptionCreateManyDoctorInput = {
   appointmentId: string
   patientId: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -819,11 +687,7 @@ export type PrescriptionCreateManyDoctorInput = {
 export type PrescriptionUpdateWithoutDoctorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointment?: Prisma.AppointmentUpdateOneRequiredWithoutPrescriptionsNestedInput
@@ -835,11 +699,7 @@ export type PrescriptionUncheckedUpdateWithoutDoctorInput = {
   appointmentId?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -849,11 +709,7 @@ export type PrescriptionUncheckedUpdateManyWithoutDoctorInput = {
   appointmentId?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -863,11 +719,7 @@ export type PrescriptionCreateManyPatientInput = {
   appointmentId: string
   doctorId: string
   instructions: string
-  medications?: string | null
-  dosage?: string | null
-  notes?: string | null
   followUpDate?: Date | string | null
-  nextVisitRequired?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -875,11 +727,7 @@ export type PrescriptionCreateManyPatientInput = {
 export type PrescriptionUpdateWithoutPatientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   appointment?: Prisma.AppointmentUpdateOneRequiredWithoutPrescriptionsNestedInput
@@ -891,11 +739,7 @@ export type PrescriptionUncheckedUpdateWithoutPatientInput = {
   appointmentId?: Prisma.StringFieldUpdateOperationsInput | string
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -905,11 +749,7 @@ export type PrescriptionUncheckedUpdateManyWithoutPatientInput = {
   appointmentId?: Prisma.StringFieldUpdateOperationsInput | string
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
   instructions?: Prisma.StringFieldUpdateOperationsInput | string
-  medications?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dosage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   followUpDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextVisitRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -922,11 +762,7 @@ export type PrescriptionSelect<ExtArgs extends runtime.Types.Extensions.Internal
   doctorId?: boolean
   patientId?: boolean
   instructions?: boolean
-  medications?: boolean
-  dosage?: boolean
-  notes?: boolean
   followUpDate?: boolean
-  nextVisitRequired?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
@@ -940,11 +776,7 @@ export type PrescriptionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   doctorId?: boolean
   patientId?: boolean
   instructions?: boolean
-  medications?: boolean
-  dosage?: boolean
-  notes?: boolean
   followUpDate?: boolean
-  nextVisitRequired?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
@@ -958,11 +790,7 @@ export type PrescriptionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   doctorId?: boolean
   patientId?: boolean
   instructions?: boolean
-  medications?: boolean
-  dosage?: boolean
-  notes?: boolean
   followUpDate?: boolean
-  nextVisitRequired?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
@@ -976,16 +804,12 @@ export type PrescriptionSelectScalar = {
   doctorId?: boolean
   patientId?: boolean
   instructions?: boolean
-  medications?: boolean
-  dosage?: boolean
-  notes?: boolean
   followUpDate?: boolean
-  nextVisitRequired?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PrescriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentId" | "doctorId" | "patientId" | "instructions" | "medications" | "dosage" | "notes" | "followUpDate" | "nextVisitRequired" | "createdAt" | "updatedAt", ExtArgs["result"]["prescription"]>
+export type PrescriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "appointmentId" | "doctorId" | "patientId" | "instructions" | "followUpDate" | "createdAt" | "updatedAt", ExtArgs["result"]["prescription"]>
 export type PrescriptionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   appointment?: boolean | Prisma.AppointmentDefaultArgs<ExtArgs>
   doctor?: boolean | Prisma.DoctorDefaultArgs<ExtArgs>
@@ -1015,11 +839,7 @@ export type $PrescriptionPayload<ExtArgs extends runtime.Types.Extensions.Intern
     doctorId: string
     patientId: string
     instructions: string
-    medications: string | null
-    dosage: string | null
-    notes: string | null
     followUpDate: Date | null
-    nextVisitRequired: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["prescription"]>
@@ -1453,11 +1273,7 @@ export interface PrescriptionFieldRefs {
   readonly doctorId: Prisma.FieldRef<"Prescription", 'String'>
   readonly patientId: Prisma.FieldRef<"Prescription", 'String'>
   readonly instructions: Prisma.FieldRef<"Prescription", 'String'>
-  readonly medications: Prisma.FieldRef<"Prescription", 'String'>
-  readonly dosage: Prisma.FieldRef<"Prescription", 'String'>
-  readonly notes: Prisma.FieldRef<"Prescription", 'String'>
   readonly followUpDate: Prisma.FieldRef<"Prescription", 'DateTime'>
-  readonly nextVisitRequired: Prisma.FieldRef<"Prescription", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Prescription", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Prescription", 'DateTime'>
 }
