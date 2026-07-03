@@ -44,15 +44,37 @@ const getMyAppointment = catchAsync(async (req, res, next) => {
   );
 
   sendResponse(res, {
-    statusCode: 200,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Appointment fetched successfully!",
     data: result,
   });
 });
 
+const updateAppointmentStatus = catchAsync(
+  async (req, res,next) => {
+    const id = req.params.id;
+    const { status } = req.body;
+    const user = req.user;
+
+    const result = await AppointmentService.updateAppointmentStatus(
+      id,
+      status,
+      user,
+    );
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Appointment updated successfully!",
+      data: result,
+    });
+  },
+);
+
 export const AppointmentController = {
   createAppointment,
   getAllFromDB,
   getMyAppointment,
+  updateAppointmentStatus,
 };

@@ -15,4 +15,10 @@ router.get(
 
 router.post("/", auth(Role.PATIENT), AppointmentController.createAppointment);
 
+router.patch(
+  "/status/:id",
+  auth(Role.ADMIN, Role.DOCTOR),
+  AppointmentController.updateAppointmentStatus,
+);
+
 export const AppointmentRoutes = router;

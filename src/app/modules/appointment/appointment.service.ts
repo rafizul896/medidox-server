@@ -1,10 +1,16 @@
-import { Appointment, Prisma, Role } from "../../../../generated/prisma/client";
+import {
+  AppointmentStatus,
+  Prisma,
+  Role,
+} from "../../../../generated/prisma/client";
 import { prisma } from "../../../../prisma/prisma";
 import { v4 as uuidv4 } from "uuid";
 import { stripe } from "../../helper/stripe";
 import config from "../../../config";
 import { IOptions, paginationHelper } from "../../helper/paginationHelper";
 import { JwtPayload } from "jsonwebtoken";
+import AppError from "../../errors/AppError";
+import httpStatus from "http-status";
 
 const createAppointment = async (
   email: string,
@@ -230,8 +236,40 @@ const getMyAppointment = async (
   };
 };
 
+const updateAppointmentStatus = async (
+  appointmentId: string,
+  status: AppointmentStatus,
+  user: JwtPayload,
+) => {
+  const appointmentData = await prisma.appointment.findUniqueOrThrow({
+    where: {
+      id: appointmentId,
+    },
+    include: {
+      doctor: true,
+    },
+  });
+
+  if (
+    user.role === Role.DOCTOR &&
+    user.email !== appointmentData.doctor.email
+  ) {
+    throw new AppError(httpStatus.BAD_REQUEST, "This is not your appointment");
+  }
+
+  return await prisma.appointment.update({
+    where: {
+      id: appointmentId
+    },
+    data: {
+      status
+    }
+  })
+};
+
 export const AppointmentService = {
   createAppointment,
   getAllFromDB,
   getMyAppointment,
+  updateAppointmentStatus,
 };
