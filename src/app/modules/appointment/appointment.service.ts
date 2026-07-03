@@ -11,7 +11,6 @@ const createAppointment = async (
     scheduleId: string;
   },
 ) => {
-  console.log(payload);
   const paytientData = await prisma.patient.findUnique({
     where: {
       email,
@@ -62,7 +61,7 @@ const createAppointment = async (
 
     const transactionId = uuidv4();
 
-    await tx.payment.create({
+   const paymentData= await tx.payment.create({
       data: {
         appointmentId: appointmentResult.id,
         amount: doctorData?.appointmentFee as number,
@@ -88,10 +87,11 @@ const createAppointment = async (
           quantity: 1,
         },
       ],
-      metadata: {
-        appointmentId: appointmentResult?.id,
-        paymentId: paytientData!.id,
-        doctorId: doctorData!.id,
+      payment_intent_data: {
+        metadata: {
+          appointmentId: appointmentResult?.id,
+          paymentId: paymentData.id,
+        },
       },
       success_url: `${config.FRONTEND_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${config.FRONTEND_URL}/payment/cancel`,
