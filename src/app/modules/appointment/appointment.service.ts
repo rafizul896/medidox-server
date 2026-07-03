@@ -1,6 +1,8 @@
 import { Appointment } from "../../../../generated/prisma/client";
 import { prisma } from "../../../../prisma/prisma";
 import { v4 as uuidv4 } from "uuid";
+import { stripe } from "../../helper/stripe";
+import config from "../../../config";
 
 const createAppointment = async (
   email: string,
@@ -9,6 +11,7 @@ const createAppointment = async (
     scheduleId: string;
   },
 ) => {
+  console.log(payload);
   const paytientData = await prisma.patient.findUnique({
     where: {
       email,
@@ -41,7 +44,7 @@ const createAppointment = async (
   };
 
   return await prisma.$transaction(async (tx) => {
-    const result = await tx.appointment.create({
+    const appointmentResult = await tx.appointment.create({
       data: appointmentData,
     });
 
@@ -61,13 +64,40 @@ const createAppointment = async (
 
     await tx.payment.create({
       data: {
-        appointmentId: result.id,
+        appointmentId: appointmentResult.id,
         amount: doctorData?.appointmentFee as number,
         transactionId,
       },
     });
 
-    return result;
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      customer_email: email,
+      expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
+      line_items: [
+        {
+          price_data: {
+            currency: "bdt",
+            product_data: {
+              name: `Appointment with ${doctorData?.name}`,
+              description: "Doctor Consultation Appointment",
+            },
+            unit_amount: Number(doctorData?.appointmentFee) * 100,
+          },
+          quantity: 1,
+        },
+      ],
+      metadata: {
+        appointmentId: appointmentResult?.id,
+        paymentId: paytientData!.id,
+        doctorId: doctorData!.id,
+      },
+      success_url: `${config.FRONTEND_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${config.FRONTEND_URL}/payment/cancel`,
+    });
+
+    return { paymentUrl: session?.url };
   });
 };
 
