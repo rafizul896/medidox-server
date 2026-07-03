@@ -5,6 +5,12 @@ import { Role } from "../../../../generated/prisma/enums";
 
 const router = Router();
 
+router.get(
+    '/',
+    auth(Role.ADMIN),
+    AppointmentController.getAllFromDB
+);
+
 router.post("/", auth(Role.PATIENT), AppointmentController.createAppointment);
 
 export const AppointmentRoutes = router;
