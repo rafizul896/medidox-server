@@ -7,6 +7,7 @@ export default {
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT,
   DATABASE_URL: process.env.DATABASE_URL,
+  FRONTEND_URL: process.env.FRONTEND_URL,
   BCRYPT_SALT_ROUND: process.env.BCRYPT_SALT_ROUND,
   OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
   JWT: {
@@ -27,4 +28,6 @@ export default {
     SMTP_PASS: process.env.SMTP_PASS,
     SMTP_FROM: process.env.SMTP_FROM,
   },
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
 };
