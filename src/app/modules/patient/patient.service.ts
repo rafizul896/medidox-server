@@ -108,8 +108,8 @@ const softDelete = async (id: string): Promise<Patient | null> => {
 };
 
 const updateIntoDB = async (id: string, req: Request) => {
-  const patientData: PatientUpdateInput = req.body;
-
+  const { patientHealthData, medicalReport, patientData } = req.body;
+  
   const patient = await prisma.patient.findUnique({
     where: { id },
   });
@@ -124,11 +124,51 @@ const updateIntoDB = async (id: string, req: Request) => {
     patientData.profilePhoto = result?.secure_url;
   }
 
-  const result = await prisma.patient.update({
-    where: {
-      id,
-    },
-    data: patientData,
+  console.log(
+    patientHealthData,
+    medicalReport,
+    patientData
+  )
+
+  const result = await prisma.$transaction(async (tx) => {
+    await tx.patient.update({
+      where: {
+        id,
+      },
+      data: { ...patientData },
+    });
+
+    if (patientHealthData) {
+      await tx.patientHealthData.upsert({
+        where: {
+          patientId: id,
+        },
+        update: { ...patientHealthData },
+        create: {
+          ...patientHealthData,
+          patientId: id,
+        },
+      });
+    }
+
+    if (medicalReport) {
+      await tx.medicalReport.create({
+        data: {
+          patientId: id,
+          ...medicalReport,
+        },
+      });
+    }
+
+    return await tx.patient.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        patientHealthData: true,
+        medicalReports: true,
+      },
+    });
   });
 
   if (patientData.profilePhoto && patient.profilePhoto) {

@@ -4,7 +4,7 @@ import auth from "../../middlewares/auth";
 import { Role } from "../../../../generated/prisma/enums";
 import { fileUploder } from "../../helper/fileUploader";
 import validateRequest from "../../middlewares/validateRequest";
-import { updatePatientValidationSchema } from "./patient.validation";
+import { updatePatientCombinedSchema } from "./patient.validation";
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.patch(
   "/:id",
   auth(Role.PATIENT),
   fileUploder.upload.single("file"),
-  validateRequest(updatePatientValidationSchema),
+  validateRequest(updatePatientCombinedSchema),
   PatientController.updateIntoDB,
 );
 

@@ -80,6 +80,14 @@ const getAllFromDB = async (
           schedule: true,
         },
       },
+      reviews: {
+        select: {
+          id: true,
+          rating: true,
+          comment: true,
+          createdAt: true,
+        },
+      },
     },
   });
 
@@ -92,6 +100,7 @@ const getAllFromDB = async (
       page,
       limit,
       total,
+      totalPage: Math.ceil(total / limit),
     },
     data: result,
   };
@@ -112,6 +121,14 @@ const getByIdFromDB = async (id: string): Promise<Doctor | null> => {
       doctorSchedules: {
         include: {
           schedule: true,
+        },
+      },
+      reviews: {
+        select: {
+          id: true,
+          rating: true,
+          comment: true,
+          createdAt: true,
         },
       },
     },
