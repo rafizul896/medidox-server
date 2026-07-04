@@ -31,6 +31,19 @@ const login = catchAsync(async (req, res, next) => {
   });
 });
 
+const getMe = catchAsync(async (req, res, next) => {
+  const session = req.cookies;
+  const result = await AuthService.getMe(session);
+
+  return sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "User retrived successfully",
+    data: result,
+  });
+});
+
 export const AuthController = {
   login,
+  getMe,
 };
