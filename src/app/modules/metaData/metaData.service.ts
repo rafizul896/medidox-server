@@ -15,7 +15,7 @@ const fetchDashboardMetaData = (user: JwtPayload) => {
       metaData = getDoctorMetaData(user);
       break;
     case Role.PATIENT:
-      metaData = "";
+      metaData = getPatientMetaData(user);
       break;
     default:
       throw new AppError(httpStatus.BAD_REQUEST, "Invalid user role");
@@ -117,6 +117,52 @@ const getDoctorMetaData = async (user: JwtPayload) => {
   };
 };
 
+const getPatientMetaData = async (user: JwtPayload) => {
+  const patientData = await prisma.patient.findUniqueOrThrow({
+    where: {
+      email: user?.email,
+    },
+  });
+
+  const appointmentCount = await prisma.appointment.count({
+    where: {
+      patientId: patientData.id,
+    },
+  });
+
+  const prescriptionCount = await prisma.prescription.count({
+    where: {
+      patientId: patientData.id,
+    },
+  });
+
+  const reviewCount = await prisma.review.count({
+    where: {
+      patientId: patientData.id,
+    },
+  });
+
+  const appointmentStatusDistribution = await prisma.appointment.groupBy({
+    by: ["status"],
+    _count: { id: true },
+    where: {
+      patientId: patientData.id,
+    },
+  });
+
+  const formattedAppointmentStatusDistribution =
+    appointmentStatusDistribution.map(({ status, _count }) => ({
+      status,
+      count: Number(_count.id),
+    }));
+
+  return {
+    appointmentCount,
+    prescriptionCount,
+    reviewCount,
+    formattedAppointmentStatusDistribution,
+  };
+};
 
 const getBarChartData = async () => {
   const appointmentCountByMonth: { month: Date; count: bigint }[] =
