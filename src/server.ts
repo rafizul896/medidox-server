@@ -1,11 +1,14 @@
 import { Server } from "http";
 import app from "./app";
 import config from "./config";
+import seedSuperAdmin from "./app/helper/seed";
 
 let server: Server;
 
 async function startServer() {
   try {
+    await seedSuperAdmin();
+
     server = app.listen(config.PORT, () => {
       console.log(`✅ Server running at http://localhost:${config.PORT}`);
     });
