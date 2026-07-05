@@ -1,46 +1,48 @@
-import { Server } from 'http';
-import app from './app';
-import config from './config';
+import { Server } from "http";
+import app from "./app";
+import config from "./config";
 
+let server: Server;
 
-async function bootstrap() {
-    // This variable will hold our server instance
-    let server: Server;
+async function startServer() {
+  try {
+    server = app.listen(config.PORT, () => {
+      console.log(`✅ Server running at http://localhost:${config.PORT}`);
+    });
 
-    try {
-        // Start the server
-        server = app.listen(config.PORT, () => {
-            console.log(`Server is running on http://localhost:${config.PORT}`);
-        });
+    // Handle process signals for graceful shutdown
+    process.on("SIGINT", shutdownHandler("SIGINT"));
+    process.on("SIGTERM", shutdownHandler("SIGTERM"));
 
-        // Function to gracefully shut down the server
-        const exitHandler = () => {
-            if (server) {
-                server.close(() => {
-                    console.log('Server closed gracefully.');
-                    process.exit(1); // Exit with a failure code
-                });
-            } else {
-                process.exit(1);
-            }
-        };
+    // Handle uncaught exceptions
+    process.on("uncaughtException", (error) => {
+      console.error("❌ Uncaught Exception:", error);
+      shutdownHandler("uncaughtException")(1);
+    });
 
-        // Handle unhandled promise rejections
-        process.on('unhandledRejection', (error) => {
-            console.log('Unhandled Rejection is detected, we are closing our server...');
-            if (server) {
-                server.close(() => {
-                    console.log(error);
-                    process.exit(1);
-                });
-            } else {
-                process.exit(1);
-            }
-        });
-    } catch (error) {
-        console.error('Error during server startup:', error);
-        process.exit(1);
-    }
+    // Handle unhandled promise rejections
+    process.on("unhandledRejection", (reason) => {
+      console.error("❌ Unhandled Rejection:", reason);
+      shutdownHandler("unhandledRejection")(1);
+    });
+  } catch (error) {
+    console.error("❌ Error during server startup:", error);
+    process.exit(1);
+  }
 }
 
-bootstrap();
+function shutdownHandler(signal: string) {
+  return (exitCode = 0) => {
+    console.log(`⚠️ Received ${signal}. Closing server...`);
+    if (server) {
+      server.close(() => {
+        console.log("✅ Server closed gracefully.");
+        process.exit(exitCode);
+      });
+    } else {
+      process.exit(exitCode);
+    }
+  };
+}
+
+startServer();

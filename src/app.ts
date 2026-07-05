@@ -31,7 +31,6 @@ app.use(cookieParser());
 
 cron.schedule("* * * * *", () => {
   try {
-    console.log("Hey There Just for a while");
     AppointmentService.cancelUnpaidAppointment();
   } catch (err) {
     console.log(err);
