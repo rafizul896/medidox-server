@@ -7,6 +7,8 @@ import { prescriptionValidationSchema } from "./prescription.validation";
 
 const router = Router();
 
+router.get("/", auth(Role.ADMIN), PrescriptionController.getAllFromDB);
+
 router.get(
   "/my-prescription",
   auth(Role.PATIENT),
