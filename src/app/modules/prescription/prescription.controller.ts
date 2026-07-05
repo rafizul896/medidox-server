@@ -31,7 +31,23 @@ const patientPrescription = catchAsync(async (req, res, next) => {
   });
 });
 
+const getAllFromDB = catchAsync(async (req, res, next) => {
+  const filters = pick(req.query, ["patientEmail", "doctorEmail"]);
+  const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+
+  const result = await PrescriptionService.getAllFromDB(filters, options);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Prescriptions fetched successfully",
+    meta: result.meta,
+    data: result.data,
+  });
+});
+
 export const PrescriptionController = {
   createPrescription,
   patientPrescription,
+  getAllFromDB,
 };

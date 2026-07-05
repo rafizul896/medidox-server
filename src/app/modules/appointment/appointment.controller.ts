@@ -51,26 +51,24 @@ const getMyAppointment = catchAsync(async (req, res, next) => {
   });
 });
 
-const updateAppointmentStatus = catchAsync(
-  async (req, res,next) => {
-    const id = req.params.id;
-    const { status } = req.body;
-    const user = req.user;
+const updateAppointmentStatus = catchAsync(async (req, res, next) => {
+  const id = req.params.id;
+  const { status } = req.body;
+  const user = req.user;
 
-    const result = await AppointmentService.updateAppointmentStatus(
-      id,
-      status,
-      user,
-    );
+  const result = await AppointmentService.updateAppointmentStatus(
+    id,
+    status,
+    user,
+  );
 
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Appointment updated successfully!",
-      data: result,
-    });
-  },
-);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Appointment updated successfully!",
+    data: result,
+  });
+});
 
 export const AppointmentController = {
   createAppointment,
