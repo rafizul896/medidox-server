@@ -11,6 +11,7 @@ import { AppointmentRoutes } from "../modules/appointment/appointment.route";
 import { PaymentRoutes } from "../modules/payment/payment.route";
 import { PrescriptionRoutes } from "../modules/prescription/prescription.route";
 import { ReviewRoutes } from "../modules/review/review.route";
+import { MetaRoutes } from "../modules/metaData/metaData.route";
 
 const router = express.Router();
 
@@ -24,18 +25,6 @@ const moduleRoutes: { path: string; route: Router }[] = [
     route: authRoutes,
   },
   {
-    path: "/schedule",
-    route: scheduleRoutes,
-  },
-  {
-    path: "/doctor-schedule",
-    route: doctorScheduleRoutes,
-  },
-  {
-    path: "/specialties",
-    route: SpecialtiesRoutes,
-  },
-  {
     path: "/doctor",
     route: DoctorRoutes,
   },
@@ -47,6 +36,19 @@ const moduleRoutes: { path: string; route: Router }[] = [
     path: "/admin",
     route: AdminRoutes,
   },
+  {
+    path: "/schedule",
+    route: scheduleRoutes,
+  },
+  {
+    path: "/doctor-schedule",
+    route: doctorScheduleRoutes,
+  },
+  {
+    path: "/specialties",
+    route: SpecialtiesRoutes,
+  },
+
   {
     path: "/appointment",
     route: AppointmentRoutes,
@@ -62,6 +64,10 @@ const moduleRoutes: { path: string; route: Router }[] = [
   {
     path: "/review",
     route: ReviewRoutes,
+  },
+  {
+    path: "/meta",
+    route: MetaRoutes,
   },
 ];
 
