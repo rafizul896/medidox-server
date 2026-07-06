@@ -88,7 +88,6 @@ const forgotPassword = catchAsync(async (req, res, next) => {
 
 const resetPassword = catchAsync(async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  console.log({ authHeader });
   const token = authHeader ? authHeader.replace("Bearer ", "") : null;
   const user = req.user;
 

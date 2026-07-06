@@ -3,6 +3,8 @@ import { prisma } from "../../../../prisma/prisma";
 import { IOptions, paginationHelper } from "../../helper/paginationHelper";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
+import { Prisma } from "../../../../generated/prisma/client";
+import { JwtPayload } from "jsonwebtoken";
 
 const createSchedule = async (payload: any) => {
   const { startTime, endTime, startDate, endDate } = payload;
@@ -145,8 +147,128 @@ const deleteScheduleFromDB = async (id: string) => {
   });
 };
 
+const getAllFromDB = async (
+  filters: Record<string, unknown>,
+  options: IOptions,
+  user: JwtPayload,
+) => {
+  const { limit, page, skip } = paginationHelper.calculatePagination(options);
+  const { startDate, endDate, ...filterData } = filters;
+
+  const andConditions = [];
+
+  if (startDate && endDate) {
+    // Both dates provided - find schedules within the date range
+    const startOfDay = new Date(startDate as string);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(endDate as string);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+
+    andConditions.push({
+      startDateTime: {
+        gte: startOfDay,
+        lte: endOfDay,
+      },
+    });
+  } else if (startDate) {
+    // Only start date - find schedules on that specific day
+    const startOfDay = new Date(startDate as string);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(startDate as string);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+
+    andConditions.push({
+      startDateTime: {
+        gte: startOfDay,
+        lte: endOfDay,
+      },
+    });
+  } else if (endDate) {
+    // Only end date - find schedules on that specific day
+    const startOfDay = new Date(endDate as string);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(endDate as string);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+
+    andConditions.push({
+      startDateTime: {
+        gte: startOfDay,
+        lte: endOfDay,
+      },
+    });
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map((key) => {
+        return {
+          [key]: {
+            equals: (filterData as any)[key],
+          },
+        };
+      }),
+    });
+  }
+
+  const whereConditions: Prisma.ScheduleWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : {};
+
+  const doctorSchedules = await prisma.doctorSchedule.findMany({
+    where: {
+      doctor: {
+        email: user?.email,
+      },
+    },
+  });
+
+  const doctorScheduleIds = doctorSchedules.map(
+    (schedule) => schedule.scheduleId,
+  );
+
+  const result = await prisma.schedule.findMany({
+    where: {
+      ...whereConditions,
+      id: {
+        notIn: doctorScheduleIds,
+      },
+    },
+    skip,
+    take: limit,
+    orderBy:
+      options.sortBy && options.sortOrder
+        ? { [options.sortBy]: options.sortOrder }
+        : {
+            createdAt: "desc",
+          },
+  });
+
+  const total = await prisma.schedule.count({
+    where: {
+      ...whereConditions,
+      id: {
+        notIn: doctorScheduleIds,
+      },
+    },
+  });
+
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+      totalPage: Math.ceil(total / limit),
+    },
+    data: result,
+  };
+};
+
 export const ScheduleService = {
   createSchedule,
   schedulesForDoctor,
   deleteScheduleFromDB,
+  getAllFromDB,
 };
+

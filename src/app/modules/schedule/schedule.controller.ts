@@ -15,12 +15,32 @@ const createSchedule = catchAsync(async (req, res, next) => {
   });
 });
 
+const getAllFromDB = catchAsync(async (req, res, next) => {
+  const filters = pick(req.query, ["startDate", "endDate"]);
+  const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+
+  const user = req.user;
+  const result = await ScheduleService.getAllFromDB(filters, options, user);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Schedule fetched successfully!",
+    data: result.data,
+    meta: result.meta,
+  });
+});
+
 const schedulesForDoctor = catchAsync(async (req, res, next) => {
   const options = pick(req.query, ["page", "limit", "sortBy", "sortOrder"]);
   const filters = pick(req.query, ["startDate", "endDate"]);
-  const {email} = req.user
+  const { email } = req.user;
 
-  const result = await ScheduleService.schedulesForDoctor(email,filters, options);
+  const result = await ScheduleService.schedulesForDoctor(
+    email,
+    filters,
+    options,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -45,5 +65,6 @@ const deleteScheduleFromDB = catchAsync(async (req, res, next) => {
 export const ScheduleController = {
   createSchedule,
   schedulesForDoctor,
-  deleteScheduleFromDB
+  deleteScheduleFromDB,
+  getAllFromDB
 };

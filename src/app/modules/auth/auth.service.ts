@@ -158,11 +158,11 @@ const forgotPassword = async (payload: { email: string }) => {
 
 const resetPassword = async (
   token: string | null,
-  payload: { email?: string; password: string },
+  payload: { email?: string; newPassword: string },
   user: JwtPayload,
 ) => {
   let userEmail: string;
-
+  console.log(token);
   // Case 1: Token-based reset (from forgot password email)
   if (token) {
     const decodedToken = verifyToken(
@@ -216,7 +216,7 @@ const resetPassword = async (
 
   // hash password
   const password = await bcrypt.hash(
-    payload.password,
+    payload.newPassword,
     Number(config.BCRYPT_SALT_ROUND),
   );
 
