@@ -146,8 +146,6 @@ const forgotPassword = async (payload: { email: string }) => {
     config.RESET.RESET_PASS_LINK +
     `?email=${encodeURIComponent(userData.email)}&token=${resetPassToken}`;
 
-    // http://localhost:3000/reset-password?email=rafizulislam899%40gmail.com&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhZml6dWxpc2xhbTg5OUBnbWFpbC5jb20iLCJ1c2VySWQiOiIxOGQ0MDM1Zi1jMTFjLTQ2NDgtOGRlZi01YzU1ZDY0NmFkMjMiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTc4MzMwMzM3MSwiZXhwIjoxNzgzMzAzNjcxfQ.7N9ufwIepdh-a9e_vYL52LMjLtwtaZ9YaPD531_qZgU
-
   await sendEmail({
     to: userData.email,
     subject: "Password Reset",
@@ -160,11 +158,11 @@ const forgotPassword = async (payload: { email: string }) => {
 
 const resetPassword = async (
   token: string | null,
-  payload: { email?: string; password: string },
+  payload: { email?: string; newPassword: string },
   user: JwtPayload,
 ) => {
   let userEmail: string;
-
+  console.log(token);
   // Case 1: Token-based reset (from forgot password email)
   if (token) {
     const decodedToken = verifyToken(
@@ -218,7 +216,7 @@ const resetPassword = async (
 
   // hash password
   const password = await bcrypt.hash(
-    payload.password,
+    payload.newPassword,
     Number(config.BCRYPT_SALT_ROUND),
   );
 
