@@ -1,4 +1,5 @@
 import z from "zod";
+import { UserStatus } from "../../../../generated/prisma/enums";
 
 const createPatientValidationSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -30,7 +31,6 @@ const createDoctorValidationSchema = z.object({
   }),
 });
 
-
 const createAdminValidationSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
   admin: z.object({
@@ -42,10 +42,19 @@ const createAdminValidationSchema = z.object({
   }),
 });
 
-
+const updateStatus = z.object({
+  body: z.object({
+    status: z.enum([
+      UserStatus.ACTIVE,
+      UserStatus.INACTIVE,
+      UserStatus.DELETED,
+    ]),
+  }),
+});
 
 export const UserValidation = {
   createPatientValidationSchema,
   createDoctorValidationSchema,
-  createAdminValidationSchema
+  createAdminValidationSchema,
+  updateStatus,
 };

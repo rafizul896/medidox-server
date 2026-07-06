@@ -5,6 +5,8 @@ import { Role } from "../../../../generated/prisma/enums";
 
 const router = Router();
 
+router.get("/", auth(Role.DOCTOR, Role.ADMIN), ScheduleController.getAllFromDB);
+
 router.get(
   "/",
   auth(Role.DOCTOR, Role.ADMIN),
