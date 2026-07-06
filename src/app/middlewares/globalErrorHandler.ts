@@ -27,11 +27,7 @@ const globalErrorHandler = async (
       message = "Foreign key constraint failed";
       statusCode = httpStatus.BAD_REQUEST;
     }
-  } else if (err instanceof Prisma.PrismaClientValidationError) {
-    message = "Validation Error";
-    error = err.message;
-    statusCode = httpStatus.BAD_REQUEST;
-  } else if (err instanceof Prisma.PrismaClientUnknownRequestError) {
+  }  else if (err instanceof Prisma.PrismaClientUnknownRequestError) {
     message = "Unkown Prisma error occured!";
     statusCode = httpStatus.BAD_REQUEST;
   } else if (err instanceof Prisma.PrismaClientInitializationError) {

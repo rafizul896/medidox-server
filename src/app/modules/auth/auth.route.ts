@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import {  Router } from "express";
 import { AuthController } from "./auth.controller";
 import { Role } from "../../../../generated/prisma/enums";
 import auth from "../../middlewares/auth";
@@ -21,14 +21,9 @@ router.post("/forgot-password", AuthController.forgotPassword);
 
 router.post(
   "/reset-password",
-  (req: Request, res: Response, next: NextFunction) => {
-    if (!req.headers.authorization && req.cookies.accessToken) {
-      auth(Role.ADMIN, Role.DOCTOR, Role.PATIENT)(req, res, next);
-    } else {
-      next();
-    }
-  },
+  auth(...Object.values(Role)),
   AuthController.resetPassword,
 );
 
 export const authRoutes = router;
+
