@@ -102,7 +102,7 @@ const createAppointment = async (
         },
       },
       success_url: `${config.FRONTEND_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${config.FRONTEND_URL}/payment/cancel`,
+      cancel_url: `${config.FRONTEND_URL}/dashboard/my-appointments`,
     });
 
     return { paymentUrl: session?.url };

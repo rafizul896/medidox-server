@@ -25,18 +25,6 @@ const moduleRoutes: { path: string; route: Router }[] = [
     route: authRoutes,
   },
   {
-    path: "/schedule",
-    route: scheduleRoutes,
-  },
-  {
-    path: "/doctor-schedule",
-    route: doctorScheduleRoutes,
-  },
-  {
-    path: "/specialties",
-    route: SpecialtiesRoutes,
-  },
-  {
     path: "/doctor",
     route: DoctorRoutes,
   },
@@ -48,6 +36,19 @@ const moduleRoutes: { path: string; route: Router }[] = [
     path: "/admin",
     route: AdminRoutes,
   },
+  {
+    path: "/schedule",
+    route: scheduleRoutes,
+  },
+  {
+    path: "/doctor-schedule",
+    route: doctorScheduleRoutes,
+  },
+  {
+    path: "/specialties",
+    route: SpecialtiesRoutes,
+  },
+
   {
     path: "/appointment",
     route: AppointmentRoutes,

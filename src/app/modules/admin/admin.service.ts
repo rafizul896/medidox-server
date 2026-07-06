@@ -148,6 +148,7 @@ const updateIntoDB = async (id: string, req: Request) => {
   return result;
 };
 
+
 export const AdminService = {
   getAllFromDB,
   getByIdFromDB,
