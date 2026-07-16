@@ -1,9 +1,10 @@
 {
-  "name": "ph-health-care-starter",
+  "name": "health-care-starter",
   "version": "1.0.0",
   "main": "server.js",
-  "author": "shafayat",
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
     "build": "tsc",
