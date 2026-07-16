@@ -5,7 +5,9 @@
   "author": "shafayat",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts"
+    "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
+    "build": "tsc",
+    "start": "node ./dist/server.js"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",

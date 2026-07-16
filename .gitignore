@@ -4,3 +4,8 @@ dist
 .env.test
 
 /src/generated/prisma
+*.log
+uploads/*
+!uploads/.gitkeep
+
+

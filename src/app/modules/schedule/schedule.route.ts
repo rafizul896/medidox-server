@@ -13,6 +13,8 @@ router.get(
   ScheduleController.schedulesForDoctor,
 );
 
+router.get("/:id", ScheduleController.getScheduleById);
+
 router.post("/", ScheduleController.createSchedule);
 
 router.delete("/:id", ScheduleController.deleteScheduleFromDB);

@@ -69,7 +69,7 @@ const softDelete = catchAsync(async (req, res, next) => {
 });
 
 const getAISuggestions = catchAsync(async (req, res, next) => {
-  const symptoms = req.query.symptoms as string;
+  const symptoms = req.query.symptoms as string || req.body.symptoms;
   const result = await DoctorService.getAISuggestions(symptoms);
 
   sendResponse(res, {

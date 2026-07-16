@@ -246,7 +246,7 @@ const getMyProfile = async (user: JwtPayload) => {
         createdAt: true,
         updatedAt: true,
         patientHealthData: true,
-        medicalReport: {
+        medicalReports: {
           select: {
             id: true,
             patientId: true,

@@ -42,8 +42,6 @@ const login = async (payload: { email: string; password: string }) => {
     config.JWT.JWT_REFRESH_EXPIRES as string,
   );
 
-  console.log(accessToken, refreshToken);
-
   return {
     accessToken,
     refreshToken,
@@ -158,9 +156,15 @@ const forgotPassword = async (payload: { email: string }) => {
 
 const resetPassword = async (
   token: string | null,
-  payload: { email?: string; newPassword: string },
+  payload: { email?: string; password: string },
   user: JwtPayload,
 ) => {
+  console.log({
+    token,
+    payload,
+    user,
+  });
+
   let userEmail: string;
   console.log(token);
   // Case 1: Token-based reset (from forgot password email)
@@ -190,13 +194,14 @@ const resetPassword = async (
 
   // Case 2: Authenticated user with needPasswordChange (newly created admin/doctor)
   else if (user && user.email) {
-    console.log({ user }, "needpassworchange");
     const authenticatedUser = await prisma.user.findUniqueOrThrow({
       where: {
         email: user.email,
         status: UserStatus.ACTIVE,
       },
     });
+
+    console.log(authenticatedUser)
 
     // Verify user actually needs password change
     if (!authenticatedUser.needPasswordChange) {
@@ -216,7 +221,7 @@ const resetPassword = async (
 
   // hash password
   const password = await bcrypt.hash(
-    payload.newPassword,
+    payload.password,
     Number(config.BCRYPT_SALT_ROUND),
   );
 
