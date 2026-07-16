@@ -6,6 +6,9 @@ import { IOptions, paginationHelper } from "../../helper/paginationHelper";
 const inserIntoDB = async (req: Request) => {
   const file = req.file;
 
+  console.log(req.body)
+  console.log(req.file)
+
   if (file) {
     const result = await fileUploder.uploadToCloudinary(file);
 

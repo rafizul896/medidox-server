@@ -64,7 +64,7 @@ const getAllFromDB = async (
     andCondition.length > 0 ? { AND: andCondition } : {};
 
   const result = await prisma.doctor.findMany({
-    where: whereConditions,
+    where: { ...whereConditions, isDeleted: false },
     orderBy: {
       [sortBy]: sortOrder,
     },
