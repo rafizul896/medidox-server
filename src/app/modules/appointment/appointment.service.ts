@@ -181,6 +181,7 @@ const getMyAppointment = async (
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelper.calculatePagination(options);
   const { ...filterData } = filters;
+  console.log("user",user)
 
   const andConditions: Prisma.AppointmentWhereInput[] = [];
 
@@ -220,6 +221,8 @@ const getMyAppointment = async (
     },
     include: user.role === Role.DOCTOR ? { patient: true } : { doctor: true },
   });
+
+  console.log("result-Backend", result);
 
   const total = await prisma.appointment.count({
     where: whereConditions,
@@ -278,6 +281,10 @@ const cancelUnpaidAppointment = async () => {
       },
     },
   });
+
+  if (unPaidAppointments.length === 0) {
+    return;
+  }
 
   const unPaidAppointmentsId = unPaidAppointments.map(
     (appointment) => appointment.id,

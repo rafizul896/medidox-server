@@ -8,9 +8,11 @@ const seedSuperAdmin = async () => {
     const isExistSuperAdmin = await prisma.user.findFirst({
       where: {
         role: Role.ADMIN,
-        email: config.SUPER_ADMIN_EMAIL
+        email: config.SUPER_ADMIN_EMAIL,
       },
     });
+
+    console.log("isExistSuperAdmin",isExistSuperAdmin)
 
     if (isExistSuperAdmin) {
       console.log("Super admin already exists!");
@@ -39,9 +41,6 @@ const seedSuperAdmin = async () => {
     console.log("Super Admin Created Successfully!", superAdminData);
   } catch (err) {
     console.error(err);
-  } finally {
-    await prisma.$disconnect();
   }
 };
-
 export default seedSuperAdmin;
